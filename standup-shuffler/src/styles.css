@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+body {
+    background-color: rgb(255,243,230);
+    max-width: 1220px;
+    margin:auto;
+    position: relative;
+    max-height: 100vh;
+    font-family: 'Lato';
+}
+
+.hidden {
+    display: none;
+}
+
+.order_list_container {
+    display:flex;
+}
+.order_list_container li {
+    list-style-type: none;
+    text-align: center;
+    border: 1px solid;
+    margin: 1px 2px;
+    border-radius: 3px;
+    padding: 10px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    border:none;
+    background-color: #0F5CA3;
+    
+}
+
+.diamon_hands_icon img {
+    width: 150px;
+}
+
+.button {
+    background-color: rgb(45,46,46);
+    color:rgb(255,253,249);
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 700;
+    height: 70px;
+    border: 0px;
+    font-family:'Lato';
+    
+    padding: 0px 30px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color  0.3s ease-in;
+}
+.button:hover {
+    background-color: rgb(43,35,88);
+    
+}
+
+.current_speaker {
+    color:rgb(84, 91, 98);
+    font-weight: 700;
+    font-size: 2em;
+}
+
+.standup_container {
+    padding-top: 100px;
+    margin: 0px 40px;
+    display:flex;
+    justify-content: space-around;
+    
+}
+.standup_container.center {
+    justify-content: center;
+}
+.current_speaker_container {
+    min-width: 400px;
+}

@@ -1,89 +1,136 @@
 import React, { useState } from "react";
+import dmh from "../assets/dmh.png";
+import "../styles.css";
+const imArr = [
+  "Julia Joachimowicz",
+  "Emma Mallon",
+  "Jen Grajkowski",
+  "Jennifer Guo",
+  "Luis Díaz",
+  "Julianna Hindemith",
+  "Eduardo Arrangóiz",
+];
+
+const devArr = [
+  "Abner Rojas",
+  "Augusto Pavía Rosas",
+  "Cesar Villegas",
+  "Michael Li",
+  "Jéssica Motta",
+  "Kathryn Robertson",
+  "Marcos Herrera",
+  "Shaun Seeram",
+  "Enrique Lozano",
+  "Filip Swierczynski",
+  "Joao Dantas",
+  "Robert Ling",
+];
+
+function fyShuffle(arr) {
+  let i = arr.length;
+  while (--i > 0) {
+    let randIndex = Math.floor(Math.random() * (i + 1));
+    [arr[randIndex], arr[i]] = [arr[i], arr[randIndex]];
+  }
+  return arr;
+}
+
+let shuffledIM = fyShuffle(imArr);
+let shuffledDev = fyShuffle(devArr);
+let combinedShuffled = shuffledIM.concat(shuffledDev);
 
 function Standup() {
-  const memberArr = [[
-    "Julia Joachimowicz",
-    "Emma Mallon",
-    "Jen Grajkowski",
-    "Jennifer Guo",
-    "Luis Díaz",
-    "Julianna Hindemith",
-    "Eduardo Arrangóiz",
-  ],[
-    "Abner Rojas",
-    "Augusto Pavía Rosas",
-    "Cesar Villegas",
-    "Michael Li",
-    "Jéssica Motta",
-    "Kathryn Robertson",
-    "Marcos Herrera",
-    "Shaun Seeram",
-    "Enrique Lozano",
-    "Filip Swierczynski",
-    "Joao Dantas",
-    "Robert Ling",
-  ]];
-
-
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-    
-  }
-
-  
-
-  React.useEffect(() => {
-   shuffleArray(memberArr[0]);
-    shuffleArray(memberArr[1]);  
-    
-  }, []);
-
-  
-
- 
-
+  const [imArr, setImArr] = useState(shuffledIM);
   const [index, setIndex] = useState(0);
-  const [arrIndex,setArrIndex] = useState(0);
-  const [buttonStatus,setButtonStatus] = useState(false)
+  const [buttonStatus, setButtonStatus] = useState(false);
+  const [showList, setShowList] = useState(false);
 
-  let displayMember = (arr, index, arrIndex) => {
-    console.log('test',arr[arrIndex][index])
-
-    if(index < arr[arrIndex].length){
-        return arr[arrIndex][index];
+  let displayMember = (arr, index) => {
+    console.log("test", arr[index]);
+    if (index < arr.length) {
+      return arr[index];
     } else {
-        setIndex(0)
-        setArrIndex(1);
-        setButtonStatus(true);
-        console.log('reset index')
-    } 
-
+      setButtonStatus(true);
+    }
   };
 
-  let displayUpNext = () => {
-
-  }
-
-  let nextMember = () => {
+  let nextMember = (index) => {
     setIndex((prevIndex) => prevIndex + 1);
+
+    removeElement(index);
   };
 
-  
+  const removeElement = (index) => {
+    const newImList = imArr.filter((_, i) => i !== index);
+    setImArr(newImList);
+  };
+
+  const startStandup = () => {
+    setShowList(!showList);
+  };
+
   return (
-    <div>
-      <p>Standup</p>
+    <div
+      className={showList ? "standup_container" : "standup_container center"}
+    >
+      <div className="person_list">
+        <div className={showList ? "" : "hidden"}>
+          <div class="order_list_container">
+            <div className="order_list ">
+              <h2>IM/IS/IC </h2>
+              <h3>Order List :</h3>
+              {imArr.map((member, index) => (
+                <li
+                  key={index}
+                  className={
+                    member !== displayMember(combinedShuffled, index)
+                      ? "test"
+                      : ""
+                  }
+                >
+                  {member}
+                </li>
+              ))}
+            </div>
 
-      {index <= memberArr[arrIndex].length ? displayMember(memberArr, index,arrIndex) : ""}
-      
+            <div className="order_list ">
+              <h2>Dev/Content/QA </h2>
+              <h3>Order List :</h3>
+              {devArr.map((member, index) => (
+                <li key={index}>{member}</li>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="current_speaker_container">
+        <div className="diamon_hands_icon">
+          <img src={dmh} alt="diamond hands" />
+        </div>
+        <button
+          type="button"
+          onClick={startStandup}
+          className={!showList ? "visible button start_button" : "hidden"}
+        >
+          Start standup
+        </button>
 
-      <button disabled={buttonStatus} type="button" onClick={nextMember}>
-        Next
-      </button>
+        <div className={showList ? "current_speaker" : "hidden"}>
+          <h2>
+            {index < combinedShuffled.length
+              ? displayMember(combinedShuffled, index)
+              : "Done"}
+          </h2>
+          <button
+            disabled={buttonStatus}
+            type="button"
+            className="button"
+            onClick={nextMember}
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
