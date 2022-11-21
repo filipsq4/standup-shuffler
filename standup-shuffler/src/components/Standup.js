@@ -126,7 +126,7 @@ function Standup() {
           <button
             disabled={buttonStatus}
             type="button"
-            className="button"
+            className={index < combinedShuffled.length ? "button": "hidden"}
             onClick={nextMember}
           >
             Next
