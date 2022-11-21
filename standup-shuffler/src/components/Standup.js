@@ -105,6 +105,7 @@ function Standup() {
       </div>
       <div className="current_speaker_container">
         <div className="diamon_hands_icon">
+          
           <img src={dmh} alt="diamond hands" />
         </div>
         <button
@@ -117,6 +118,7 @@ function Standup() {
 
         <div className={showList ? "current_speaker" : "hidden"}>
           <h2>
+            
             {index < combinedShuffled.length
               ? displayMember(combinedShuffled, index)
               : "Done"}
