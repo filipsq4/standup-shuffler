@@ -44,6 +44,7 @@ function Standup() {
   const [index, setIndex] = useState(0);
   const [buttonStatus, setButtonStatus] = useState(false);
   const [showList, setShowList] = useState(false);
+  const [allMembers,setAllMembers] = useState(combinedShuffled);
 
   let displayMember = (arr, index) => {
     console.log("test", arr[index]);
@@ -69,21 +70,27 @@ function Standup() {
     setShowList(!showList);
   };
 
+  const removeMember = (member) => {
+    setAllMembers(allMembers.filter(el => el !== member));
+  }
+
+
   return (
     <div
       className={showList ? "standup_container" : "standup_container center"}
     >
       <div className="person_list">
-        <div className={showList ? "" : "hidden"}>
+        <div className={showList ? "" : ""}>
           <div class="order_list_container">
             <div className="order_list ">
               <h2>IM/IS/IC </h2>
               <h3>Order List :</h3>
               {imArr.map((member, index) => (
                 <li
+                onClick={removeMember}
                   key={index}
                   className={
-                    member !== displayMember(combinedShuffled, index)
+                    member !== displayMember(allMembers, index)
                       ? "test"
                       : ""
                   }
@@ -97,7 +104,7 @@ function Standup() {
               <h2>Dev/Content/QA </h2>
               <h3>Order List :</h3>
               {devArr.map((member, index) => (
-                <li key={index}>{member}</li>
+                <li  key={index}>{member}</li>
               ))}
             </div>
           </div>
@@ -118,15 +125,14 @@ function Standup() {
 
         <div className={showList ? "current_speaker" : "hidden"}>
           <h2>
-            
-            {index < combinedShuffled.length
-              ? displayMember(combinedShuffled, index)
-              : "Done"}
+            {index < allMembers.length
+              ? displayMember(allMembers, index)
+              : "Done"} 
           </h2>
           <button
             disabled={buttonStatus}
             type="button"
-            className={index < combinedShuffled.length ? "button": "hidden"}
+            className={index < allMembers.length ? "button": "hidden"}
             onClick={nextMember}
           >
             Next
